@@ -5,33 +5,41 @@ import mochaStatsCollector from 'mocha/lib/stats-collector'
 
 const { Base } = mocha.reporters
 
+const MOCHA_MULTI_REPORTER_DEFAULT_CONFIG = '.reporters.json'
+
 type MultiReporterThis = {
   reporters: typeof Base[]
 }
 
 function readConfig(path?: string): Record<string, unknown> {
-  const configPath = path ?? '.reporters.json'
+  const configPath = path ?? MOCHA_MULTI_REPORTER_DEFAULT_CONFIG
 
   if (!fs.existsSync(configPath)) {
     return {}
   }
 
-  const buffer = fs.readFileSync(configPath, { encoding: 'utf8' })
-
-  return JSON.parse(buffer)
+  return JSON.parse(fs.readFileSync(configPath, { encoding: 'utf8' }))
 }
 
 function parseReporterOptions(options: mocha.RunnerOptions): Record<string, Record<string, unknown>> {
   const result = {}
 
-  for (const key of Object.keys(options)) {
-    if (key === 'config' || key == 'reporters') {
+  for (const option of Object.keys(options)) {
+    if (option === 'config' || option == 'reporters') {
       continue
     }
 
-    const [reporterName, configKey] = key.split(':')
+    if (option.trim().length === 0) {
+      console.error('Empty option for reporter')
+    }
 
-    result[reporterName] = { ...result[reporterName], [configKey]: options[key] }
+    const [reporterName, configKey] = option.split(':')
+
+    if (!configKey) {
+      console.error(`Could not parse option for reporter '${reporterName}': '${option}'`)
+    } else {
+      result[reporterName] = { ...result[reporterName], [configKey]: options[option] }
+    }
   }
 
   return result
@@ -67,7 +75,7 @@ function MultiReporter(this: MultiReporterThis, runner: mocha.Runner, options: m
       this.reporters.push(new reporter(runner, {
         reporterOption: {
           ...configReporterOptions,
-          ...(parsedReporterOptions[reporterName] ?? {})
+          ...parsedReporterOptions[reporterName]
         }
       }))
     }
@@ -78,10 +86,6 @@ MultiReporter.prototype.done = function(failures: number, fn?: (failures: number
   const doneableReporters = this.reporters.filter((reporter: typeof Base) =>
     typeof reporter.prototype.done === "function"
   )
-
-  if (doneableReporters.length === 0) {
-    fn(failures)
-  }
 
   for (const reporter of doneableReporters) {
     reporter.done(failures, fn)
