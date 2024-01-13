@@ -1,0 +1,31 @@
+{
+  "name": "mocha-multi-reporter",
+  "version": "0.1.0",
+  "description": "Reporter for running multiple mocha reporters",
+  "main": "./build/dist/src/index.js",
+  "scripts": {
+    "test": "mocha --reporter ./build/dist/src/index.js --reporter-options config=sample-config.json \"src/**/*.test.@(js|ts)\"",
+    "build": "babel src --out-dir ./build/dist/src --extensions '.ts' --source-maps  --ignore '**/*.d.ts'",
+    "lint": "eslint './src/**/*.{ts,tsx}'"
+  },
+  "keywords": [
+    "mocha",
+    "reporter"
+  ],
+  "author": "MisanthropicBit",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.7",
+    "@babel/preset-typescript": "^7.23.3",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.8",
+    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/parser": "^6.18.1"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.23.8",
+    "mocha": "^10.2.0",
+    "typescript": "^5.3.3"
+  }
+}

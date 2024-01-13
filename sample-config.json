@@ -1,0 +1,6 @@
+{
+  "json": {
+    "output": "test-output.log"
+  },
+  "spec": true
+}
