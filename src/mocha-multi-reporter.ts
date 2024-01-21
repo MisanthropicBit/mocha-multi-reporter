@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { inherits } from 'util'
 
 import mocha from 'mocha'
 import mochaStatsCollector from 'mocha/lib/stats-collector'
@@ -46,7 +47,7 @@ function parseReporterOptions(options: mocha.RunnerOptions): Record<string, Reco
 }
 
 function MultiReporter(this: MultiReporterThis, runner: mocha.Runner, options: mocha.MochaOptions) {
-  Base.call(this, runner)
+  Base.call(this, runner, options)
 
   // We do not support mocha below version 7
   mochaStatsCollector(runner)
@@ -81,6 +82,8 @@ function MultiReporter(this: MultiReporterThis, runner: mocha.Runner, options: m
     }
   }
 }
+
+inherits(MultiReporter, Base)
 
 MultiReporter.prototype.done = function(failures: number, fn?: (failures: number) => void): void {
   const doneableReporters = this.reporters.filter((reporter: typeof Base) =>
