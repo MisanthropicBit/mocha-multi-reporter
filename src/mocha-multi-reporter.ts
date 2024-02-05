@@ -89,21 +89,11 @@ function MultiReporter(this: MultiReporterThis, runner: mocha.Runner, options: m
   }
 }
 
-<<<<<<< HEAD
 inherits(MultiReporter, Base)
 
-MultiReporter.prototype.done = function(failures: number, fn?: (failures: number) => void): void {
-  const doneableReporters = this.reporters.filter((reporter: typeof Base) =>
-    typeof reporter.prototype.done === "function"
-||||||| parent of 5a02983 (Eslint fixes)
-MultiReporter.prototype.done = function(failures: number, fn?: (failures: number) => void): void {
-  const doneableReporters = this.reporters.filter((reporter: typeof Base) =>
-    typeof reporter.prototype.done === "function"
-=======
 MultiReporter.prototype.done = function (failures: number, fn?: (failures: number) => void): void {
   const doneableReporters = this.reporters.filter(
     (reporter: typeof Base) => typeof reporter.prototype.done === 'function'
->>>>>>> 5a02983 (Eslint fixes)
   )
 
   for (const reporter of doneableReporters) {
