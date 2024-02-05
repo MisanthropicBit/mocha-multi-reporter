@@ -25,6 +25,10 @@ function readConfig(path?: string): Record<string, unknown> {
 function parseReporterOptions(options: mocha.RunnerOptions): Record<string, Record<string, unknown>> {
   const result = {}
 
+  if (!options) {
+    return result
+  }
+
   for (const option of Object.keys(options)) {
     if (option === 'config' || option == 'reporters') {
       continue
@@ -67,8 +71,15 @@ function MultiReporter(this: MultiReporterThis, runner: mocha.Runner, options: m
     } else {
       const configValue = config[reporterName]
 
-      if (typeof configValue === 'boolean' && !configValue) {
-        continue
+      if (configValue != null) {
+        if (typeof configValue === 'boolean') {
+          if (!configValue) {
+            continue
+          }
+        } else if (typeof configValue !== 'object' || Array.isArray(configValue)) {
+          console.error(`Expected a boolean or object value for reporter '${reporterName}'`)
+          continue
+        }
       }
 
       const configReporterOptions = typeof configValue === 'object' ? configValue : {}
