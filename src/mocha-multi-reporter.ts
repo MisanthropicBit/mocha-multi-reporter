@@ -1,8 +1,7 @@
 import fs from 'fs'
-import { inherits } from 'util'
-
 import mocha from 'mocha'
 import mochaStatsCollector from 'mocha/lib/stats-collector'
+import { inherits } from 'util'
 
 const { Base } = mocha.reporters
 
