@@ -20,6 +20,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Run tests
-        run:
-          - npm run build
-          - npm test
+        run: |
+          npm run build
+          npm test
