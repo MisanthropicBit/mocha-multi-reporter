@@ -1,9 +1,7 @@
 {
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "plugin:prettier/recommended"
+    "plugin:@typescript-eslint/recommended"
   ],
   "plugins": [
     "prettier",
@@ -61,7 +59,6 @@
         "@typescript-eslint/no-extra-non-null-assertion": "error",
         "@typescript-eslint/no-floating-promises": "error",
         "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
-        "@typescript-eslint/no-parameter-properties": "error",
         "@typescript-eslint/no-require-imports": "error",
         "@typescript-eslint/no-throw-literal": "error",
         "@typescript-eslint/ban-ts-comment": "warn",
