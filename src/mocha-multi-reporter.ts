@@ -83,6 +83,10 @@ function MultiReporter(this: MultiReporterThis, runner: mocha.Runner, options: m
       )
     }
   }
+
+  if (this.reporters.length === 0) {
+    console.error('No reporters were registered')
+  }
 }
 
 <<<<<<< HEAD
