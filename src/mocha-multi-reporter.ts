@@ -1,8 +1,7 @@
 import fs from 'fs'
-import { inherits } from 'util'
-
 import mocha from 'mocha'
 import mochaStatsCollector from 'mocha/lib/stats-collector'
+import { inherits } from 'util'
 
 const { Base } = mocha.reporters
 
@@ -36,6 +35,7 @@ function parseReporterOptions(options: mocha.RunnerOptions): Record<string, Reco
 
     if (option.trim().length === 0) {
       console.error('Empty option for reporter')
+      continue
     }
 
     const [reporterName, configKey] = option.split(':')
