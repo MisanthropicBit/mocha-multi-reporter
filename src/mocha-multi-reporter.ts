@@ -35,6 +35,7 @@ function parseReporterOptions(options: mocha.RunnerOptions): Record<string, Reco
 
     if (option.trim().length === 0) {
       console.error('Empty option for reporter')
+      continue
     }
 
     const [reporterName, configKey] = option.split(':')

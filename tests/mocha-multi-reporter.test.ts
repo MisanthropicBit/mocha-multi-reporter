@@ -44,7 +44,7 @@ describe('mocha-multi-reporter', () => {
     expect(stderr, 'to equal', '')
   })
 
-  it.skip('reports empty option for reporter', async () => {
+  it('reports empty option for reporter', async () => {
     const command = [
       'mocha',
       '--reporter',
@@ -60,7 +60,7 @@ describe('mocha-multi-reporter', () => {
 
     expect(stdout, 'to contain', '"fullTitle"')
     expect(stdout, 'to contain', '1 passing')
-    expect(stderr, 'to equal', 'Empty option for reporter')
+    expect(stderr, 'to equal', 'Empty option for reporter\n')
   })
 
   it('reports unparsed reporter option', async () => {
