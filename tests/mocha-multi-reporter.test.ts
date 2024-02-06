@@ -6,7 +6,7 @@ const exec = util.promisify(child_process.exec)
 
 describe('mocha-multi-reporter', () => {
   const runReporter = async (command: string[]): Promise<{ stdout: string; stderr: string }> => exec(command.join(' '))
-
+  const testFile = './src/test.test.js'
 
   it('runs reporter', async () => {
     const command = [
@@ -15,7 +15,7 @@ describe('mocha-multi-reporter', () => {
       './build/dist/src/index.js',
       '--reporter-options',
       'reporters=json:spec',
-      './src/test.test.js'
+      testFile
     ]
 
     const { stdout, stderr } = await runReporter(command)
@@ -34,7 +34,24 @@ describe('mocha-multi-reporter', () => {
       'reporters=json:spec',
       '--reporter-options',
       'config=./sample-config.json',
-      './src/test.test.js'
+      testFile
+    ]
+
+    const { stdout, stderr } = await runReporter(command)
+
+    expect(stdout, 'not to contain', '"fullTitle"')
+    expect(stdout, 'to contain', '1 passing')
+    expect(stderr, 'to equal', '')
+  })
+
+  it('runs reporter with disabled reporters in config file', async () => {
+    const command = [
+      'mocha',
+      '--reporter',
+      './build/dist/src/index.js',
+      '--reporter-options',
+      'config=./disabled-reporter.json',
+      testFile
     ]
 
     const { stdout, stderr } = await runReporter(command)
@@ -53,7 +70,7 @@ describe('mocha-multi-reporter', () => {
       'reporters=json:spec',
       '--reporter-options',
       '"  "',
-      './src/test.test.js'
+      testFile
     ]
 
     const { stdout, stderr } = await runReporter(command)
@@ -72,7 +89,7 @@ describe('mocha-multi-reporter', () => {
       'reporters=json:spec',
       '--reporter-options',
       '"json>"',
-      './src/test.test.js'
+      testFile
     ]
 
     const { stdout, stderr } = await runReporter(command)
@@ -89,7 +106,7 @@ describe('mocha-multi-reporter', () => {
       './build/dist/src/index.js',
       '--reporter-options',
       'reporters=spec:lol',
-      './src/test.test.js'
+      testFile
     ]
 
     const { stdout, stderr } = await runReporter(command)
@@ -107,7 +124,7 @@ describe('mocha-multi-reporter', () => {
       'reporters=spec:json',
       '--reporter-options',
       'config=./incorrect-config-value.json',
-      './src/test.test.js'
+      testFile
     ]
 
     const { stdout, stderr } = await runReporter(command)
@@ -122,7 +139,7 @@ describe('mocha-multi-reporter', () => {
       'mocha',
       '--reporter',
       './build/dist/src/index.js',
-      './src/test.test.js'
+      testFile
     ]
 
     const { stdout, stderr } = await runReporter(command)
