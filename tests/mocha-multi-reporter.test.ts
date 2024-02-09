@@ -61,6 +61,24 @@ describe('mocha-multi-reporter', () => {
     expect(stderr, 'to equal', '')
   })
 
+  it('runs with doneable reporters', async () => {
+    const command = [
+      'mocha',
+      '--reporter',
+      './build/dist/src/index.js',
+      '--reporter-options',
+      'reporters=spec:xunit:json',
+      testFile
+    ]
+
+    const { stdout, stderr } = await runReporter(command)
+
+    expect(stdout, 'to contain', '<testsuite name="Mocha Tests" tests="1"')
+    expect(stdout, 'to contain', '"fullTitle"')
+    expect(stdout, 'to contain', '1 passing')
+    expect(stderr, 'to equal', '')
+  })
+
   it('reports empty option for reporter', async () => {
     const command = [
       'mocha',
